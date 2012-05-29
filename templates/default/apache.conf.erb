@@ -1,5 +1,4 @@
-# Dropped off by Chef, thanks!
-
+# managed by chef, changes will be overwritten
 check process apache with pidfile <%= node[:apache][:pid_file] %>
      start "/etc/init.d/<%= @service_name %> start"
      stop  "/etc/init.d/<%= @service_name %> stop"
