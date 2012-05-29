@@ -1,8 +1,8 @@
 @service_name =  value_for_platform({
-  [ "redhat","centos","scientific","fedora","suse","amazon" ] => "httpd",
-  [ "debian","ubuntu"] => "apache2",
-  [ "arch"] => "httpd",
-  [ "freebsd" ] => "apache22"
+  [ "redhat","centos","scientific","fedora","suse","amazon" ] => { "default" => "httpd" },
+  [ "debian","ubuntu"] => { "default" => "apache2" },
+  [ "arch" ] => { "default" =>  "httpd" },
+  [ "freebsd" ] => { "default" => "apache22" }
 })
 
 monitrc 'apache' do
