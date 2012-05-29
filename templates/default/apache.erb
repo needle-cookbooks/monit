@@ -1,0 +1,8 @@
+# Dropped off by Chef, thanks!
+
+check process apache with pidfile <%= node[:apache][:pid_file] %>
+     start "/etc/init.d/<%= @service_name %> start"
+     stop  "/etc/init.d/<%= @service_name %> stop"
+     if failed host 127.0.0.1 port 80
+        protocol apache-status loglimit > 60% 
+     then restart
