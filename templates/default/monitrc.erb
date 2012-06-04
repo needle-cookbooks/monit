@@ -10,7 +10,7 @@ set eventqueue
 #    slots 1000          # optionaly limit the queue size
 
 set mail-format { 
-  from: <%= @node[:monit][:mail_format][:from] %>
+  from: <%= @node.chef_environment %>@<%= @node[:monit][:mail_format][:from_domain] %>
   subject: <%= @node[:monit][:mail_format][:subject] %>
   message: <%= @node[:monit][:mail_format][:message] %>
 }
