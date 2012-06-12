@@ -4,4 +4,9 @@ CHECK PROCESS sshd WITH PIDFILE /var/run/sshd.pid
   STOP PROGRAM "/usr/sbin/service ssh stop"
   # under load a check may fail intermittently, so give it a few tries before restarting
   IF FAILED PORT 22 PROTOCOL ssh 4 TIMES WITHIN 6 CYCLES THEN RESTART
-
+<%- if node.recipes.include?('monit::pagerduty') -%>
+  IF DOES NOT EXIST FOR 3 CYCLES
+    THEN EXEC "/etc/monit/pagerduty-trigger ssh"
+  ELSE IF PASSED FOR 3 CYCLES
+    THEN EXEC "/etc/monit/pagerduty-resolve ssh"
+<%- end -%>

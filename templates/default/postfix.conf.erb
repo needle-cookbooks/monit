@@ -3,4 +3,11 @@ CHECK PROCESS postfix WITH PIDFILE /var/spool/postfix/pid/master.pid
   stop  program = "/etc/init.d/postfix stop"
   GROUP mail
   IF FAILED PORT 25 PROTOCOL smtp THEN restart
+ <%- if node.recipes.include?('monit::pagerduty') -%>
+  IF 5 RESTARTS WITHIN 5 CYCLES
+    THEN EXEC "/etc/monit/pagerduty-trigger postfix"
+  ELSE IF PASSED FOR 3 CYCLES
+    THEN EXEC "/etc/monit/pagerduty-resolve postfix"
+<%- else -%> 
   IF 5 RESTARTS WITHIN 5 CYCLES THEN timeout
+<%- end -%>

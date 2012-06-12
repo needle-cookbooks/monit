@@ -5,3 +5,9 @@ check process apache with pidfile <%= node[:apache][:pid_file] %>
      if failed host 127.0.0.1 port 80
         protocol apache-status loglimit > 60% 
      then restart
+     <%- if node.recipes.include?('monit::pagerduty') -%>
+     if does not exist for 3 cycles
+     	then exec "/etc/monit/pagerduty-trigger apache"
+     else if passed for 3 cycles
+     	then exec "/etc/monit/pagerduty-resolve apache"
+	<%- end -%>
