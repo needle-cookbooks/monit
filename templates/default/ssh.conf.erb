@@ -1,12 +1,12 @@
 # managed by chef, changes will be overwritten
-CHECK PROCESS sshd WITH PIDFILE /var/run/sshd.pid
-  START PROGRAM "/usr/sbin/service ssh start"
-  STOP PROGRAM "/usr/sbin/service ssh stop"
+check process sshd with pidfile /var/run/sshd.pid
+  start program "/usr/sbin/service ssh start"
+  stop program "/usr/sbin/service ssh stop"
   # under load a check may fail intermittently, so give it a few tries before restarting
-  IF FAILED PORT 22 PROTOCOL ssh 4 TIMES WITHIN 6 CYCLES THEN RESTART
+  if failed port 22 protocol ssh 4 times within 6 cycles then restart
 <%- if node.recipes.include?('monit::pagerduty') -%>
-  IF DOES NOT EXIST FOR 3 CYCLES
-    THEN EXEC "/etc/monit/pagerduty-trigger ssh"
-  ELSE IF PASSED FOR 3 CYCLES
-    THEN EXEC "/etc/monit/pagerduty-resolve ssh"
+  if 5 restarts within 5 cycles
+    then exec "/etc/monit/pagerduty-trigger ssh"
+  else if passed for 3 cycles
+    then exec "/etc/monit/pagerduty-resolve ssh"
 <%- end -%>
