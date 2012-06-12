@@ -12,3 +12,5 @@ Yours sincerely,
 monit
 EOS
 
+default[:monit][:pagerduty_api_key] = nil
+
