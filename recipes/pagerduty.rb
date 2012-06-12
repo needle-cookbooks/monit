@@ -1,6 +1,8 @@
 include_recipe	'python'
 
-python_pip 'pagerduty'
+python_pip 'pagerduty' do
+  action :install
+end
 
 %w{trigger resolve}.each do |action|
 
